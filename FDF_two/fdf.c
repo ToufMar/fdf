@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fdf.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/05/02 13:35:06 by mroturea          #+#    #+#             */
+/*   Updated: 2016/05/17 19:00:04 by mroturea         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 #include <stdio.h>
-#include "mlx.h"
 #include "get_next_line.h"
+#include <math.h>
 
 int ft_key_print(int keycode, void *param)
 {
@@ -10,89 +22,80 @@ int ft_key_print(int keycode, void *param)
 	return(0);
 }
 
-void print_trace(int x, int y, int xf, int yf, t_info list)
+t_point	calcul(int x, int y, int z, t_struct *s)
 {
-   int dx = xf - x;
-   int dy = yf - y;
-   int cumul = dx / 2;
+	t_point point;
 
-   while(x <= xf)
-   {
-   		cumul += dy;
-   		if (cumul >= dx)
-   		{
-   			cumul -=dx;
-   			y+= 1;
-  		}
-   		mlx_pixel_put(list.mlx, list.win, x, y, 0xFFFFFF);
-   		x++;
-   }
+	point.x = s->place + ((sqrt(2.0) / 2.0) * ((x * s->zoom) - (y * s->zoom)));
+	point.y = s->place - ((sqrt(2.0 / 3.0) * (z * s->zoom / s->prof)) -
+	((1 / sqrt(9.0)) * (s->zoom * (x + y))));
+	return (point);
 }
 
-int	count_line(char *av)
+void print_map(t_struct *s, t_tab *t)
 {
-	int fd;
-	char *line;
-	int i;
-	
-	i = 0;
-	if ((fd = open(av, O_RDONLY)) > 0)
+	int x;
+	int y;
+	t_point p1;
+	t_point p2;
+
+	x = -1;
+	while (++x < t->nb_col)
 	{
-		while (get_next_line(fd, &line) > 0)
-			i++;
-		close(fd);
-		return (i);
+		y = -1;
+		while (++y < t->nb_line)
+		{
+			p1 = calcul(x, y, t->tab[y][x], s);
+			if (x + 1 < t->nb_col)
+			{
+				p2 = calcul(x + 1, y, t->tab[y][x + 1], s);
+				print_trace(p1, p2, s);
+			}
+			if (y + 1 < t->nb_line)
+			{
+				p2 = calcul(x, y + 1, t->tab[y + 1][x], s);
+				print_trace(p1, p2, s);
+			}
+		}
 	}
-	else
-		return (-1);
 }
 
-int	count_col(char **tab)
+void mlx(t_struct *s, t_tab *t)
 {
-	int i;
-	i = 0;
-	while (tab[i])
-		i++;
-	return (i);
-}
-
-int		*get_int_tab(char *str)
-{
-	int i;
-	char **tmp;
-	int *tab = NULL;
-	
-	i = 0;
-	tmp = ft_strsplit(str, ' ');
-	tab = (int *)malloc(sizeof(int) * count_col(tmp));
-	while (tmp[i])
-	{
-		tab[i] = ft_atoi(tmp[i]);
-		i++;
-	}
-	return(tab);
+	s->prof = 10;
+	s->place = 400;
+	s->zoom = 30;
+	s->mlx = mlx_init();
+	s->win = mlx_new_window(s->mlx, HGT, WDT, "CyberPedo");
+	s->mlx_img = mlx_new_image(s->mlx, HGT, WDT);
+	s->ptr_img = mlx_get_data_addr(s->mlx_img, &(s->bit_pp), &(s->size_line), &(s->endian));
+	init_color(s);
+	print_map(s, t);
+	mlx_put_image_to_window(s->mlx, s->win, s->mlx_img, 0, 0);
+	mlx_key_hook(s->win, ft_key_print, 0);
+	mlx_loop(s->mlx);
 }
 
 int main(int ac, char **av)
 {
-	//	t_info list;
+	t_struct *s;
+	t_tab *t;
 	ac = 0;
 	char *line;
-	int **tab;
 	int fd;
 	int i = 0;
-	
+
+	s = NULL;
 	fd = open(av[1], O_RDONLY);
-	tab = (int **)malloc(sizeof(int *) * count_line(av[1]) + 1);
+	t = (t_tab *)malloc(sizeof(t_tab));
+	t->tab = (int **)malloc(sizeof(int *) * count_line(av[1]));
+	s = (t_struct *)malloc(sizeof(t_struct));
 	while ((get_next_line(fd, &line)) > 0)
 	{
-		tab[i] = get_int_tab(line);
+		t->tab[i] = get_int_tab(line, t);
 		i++;
 	}
-	tab[i] = NULL;
-	/*	list.mlx = mlx_init();
-		list.win = mlx_new_window(list.mlx, HGT, WDT, "CyberPedo");
-		mlx_key_hook(list.win, ft_key_print, 0);
-		print_trace(150, 150, 178, 189, list);
-		mlx_loop(list.mlx);*/
+	t->nb_line = i;
+	t->tab[i] = NULL;
+	mlx(s, t);
 }

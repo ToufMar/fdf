@@ -6,7 +6,7 @@
 #    By: nrandria <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/27 11:23:48 by nrandria          #+#    #+#              #
-#    Updated: 2016/04/18 19:41:04 by mroturea         ###   ########.fr        #
+#    Updated: 2016/05/02 14:29:56 by mroturea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME = libft/libft.a
 
-SRC = fdf.c \
+SRC = fdf.c tool_map.c tab_maker.c\
 
 EXE = fdf
 
