@@ -6,7 +6,7 @@
 /*   By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/02 14:21:54 by mroturea          #+#    #+#             */
-/*   Updated: 2016/05/17 19:00:06 by mroturea         ###   ########.fr       */
+/*   Updated: 2016/05/18 17:51:19 by mroturea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define FDF_H
 #include "libft/libft.h"
 #include <mlx.h>
-# define HGT 1900
-# define WDT 1080
-# define SHIFT 500
+# define HGT 2048
+# define WDT 2080
+
 
 typedef struct	s_struct
 {
@@ -31,7 +31,8 @@ typedef struct	s_struct
 	int blue;
 	int green;
 	int prof;
-	int place;
+	int yplace;
+	int xplace;
 	int zoom;
 }				t_struct;
 
@@ -59,8 +60,8 @@ typedef struct s_point
 }							t_point;
 
 int ft_key_print(int keycode, void *param);
-void init_color(t_struct *s);
-void put_pixel_to_image(t_point p1, t_struct *s);
+void init_color(t_struct *s, int z);
+void put_pixel_to_image(int x, int y, t_struct *s);
 void print_trace(t_point p1, t_point p2, t_struct *s);
 int ft_abs(int nb);
 int	count_line(char *av);

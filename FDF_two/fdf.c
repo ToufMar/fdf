@@ -6,7 +6,7 @@
 /*   By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/02 13:35:06 by mroturea          #+#    #+#             */
-/*   Updated: 2016/05/17 19:00:04 by mroturea         ###   ########.fr       */
+/*   Updated: 2016/05/18 17:52:11 by mroturea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ t_point	calcul(int x, int y, int z, t_struct *s)
 {
 	t_point point;
 
-	point.x = s->place + ((sqrt(2.0) / 2.0) * ((x * s->zoom) - (y * s->zoom)));
-	point.y = s->place - ((sqrt(2.0 / 3.0) * (z * s->zoom / s->prof)) -
-	((1 / sqrt(9.0)) * (s->zoom * (x + y))));
+	point.x = s->xplace + ((sqrt(2.0) / 2.0) * ((x * s->zoom) - (y * s->zoom)));
+	point.y = s->yplace - ((sqrt(2.0 / 2.0) * (z * s->zoom / s->prof)) -
+	((1 / sqrt(6.0)) * (s->zoom * (x + y))));
 	return (point);
 }
 
@@ -39,37 +39,42 @@ void print_map(t_struct *s, t_tab *t)
 	t_point p1;
 	t_point p2;
 
-	x = -1;
-	while (++x < t->nb_col)
+	x = 0;
+	y = 0;
+	while (y < t->nb_line)
 	{
-		y = -1;
-		while (++y < t->nb_line)
+		while (x < t->nb_col)
 		{
 			p1 = calcul(x, y, t->tab[y][x], s);
-			if (x + 1 < t->nb_col)
+			x++;
+			init_color(s, t->tab[y][x]);
+			if (x < t->nb_col)
 			{
-				p2 = calcul(x + 1, y, t->tab[y][x + 1], s);
+				p2 = calcul(x, y, t->tab[y][x], s);
 				print_trace(p1, p2, s);
 			}
-			if (y + 1 < t->nb_line)
+			if (y < t->nb_line - 1)
 			{
-				p2 = calcul(x, y + 1, t->tab[y + 1][x], s);
+				p2 = calcul(x - 1, y + 1, t->tab[y + 1][x - 1], s);
 				print_trace(p1, p2, s);
 			}
 		}
+		x = 0;
+		y++;
 	}
 }
 
 void mlx(t_struct *s, t_tab *t)
 {
-	s->prof = 10;
-	s->place = 400;
-	s->zoom = 30;
+	s->prof = 20;
+	s->yplace = 200;
+	s->xplace = 800;
+	s->zoom = 7;
 	s->mlx = mlx_init();
 	s->win = mlx_new_window(s->mlx, HGT, WDT, "CyberPedo");
 	s->mlx_img = mlx_new_image(s->mlx, HGT, WDT);
 	s->ptr_img = mlx_get_data_addr(s->mlx_img, &(s->bit_pp), &(s->size_line), &(s->endian));
-	init_color(s);
+
 	print_map(s, t);
 	mlx_put_image_to_window(s->mlx, s->win, s->mlx_img, 0, 0);
 	mlx_key_hook(s->win, ft_key_print, 0);
@@ -83,17 +88,20 @@ int main(int ac, char **av)
 	ac = 0;
 	char *line;
 	int fd;
+	int u;
 	int i = 0;
-
+	printf("ok");
 	s = NULL;
 	fd = open(av[1], O_RDONLY);
 	t = (t_tab *)malloc(sizeof(t_tab));
-	t->tab = (int **)malloc(sizeof(int *) * count_line(av[1]));
+	u = count_line(av[1]);
+	t->tab = (int **)malloc(sizeof(int *) * u);
 	s = (t_struct *)malloc(sizeof(t_struct));
+	ft_memset(s, 0, sizeof(s));
 	while ((get_next_line(fd, &line)) > 0)
 	{
-		t->tab[i] = get_int_tab(line, t);
-		i++;
+				t->tab[i] = get_int_tab(line, t);
+				i++;
 	}
 	t->nb_line = i;
 	t->tab[i] = NULL;

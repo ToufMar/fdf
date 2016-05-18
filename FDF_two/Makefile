@@ -6,7 +6,7 @@
 #    By: nrandria <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/27 11:23:48 by nrandria          #+#    #+#              #
-#    Updated: 2016/05/02 14:29:56 by mroturea         ###   ########.fr        #
+#    Updated: 2016/05/18 16:13:55 by mroturea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC = fdf.c tool_map.c tab_maker.c\
 
 EXE = fdf
 
-GCC = gcc -g -o fdf -Wall -Wextra -Werror -lmlx -framework OpenGL -framework Appkit
+GCC = gcc -g -o fdf -Wall -Wextra -Werror -lmlx -framework OpenGL -framework Appkit -O3 -Ofast
 
 
 all: $(NAME)
