@@ -6,7 +6,7 @@
 /*   By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/02 14:21:54 by mroturea          #+#    #+#             */
-/*   Updated: 2016/05/18 17:51:19 by mroturea         ###   ########.fr       */
+/*   Updated: 2016/05/18 19:56:39 by mroturea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef struct	s_struct
 	int yplace;
 	int xplace;
 	int zoom;
+	int para;
+
 }				t_struct;
 
 typedef struct s_bresen
@@ -59,8 +61,8 @@ typedef struct s_point
 	int y;
 }							t_point;
 
-int ft_key_print(int keycode, void *param);
-void init_color(t_struct *s, int z);
+int ft_key_print(int key, t_struct *s, t_tab *t);
+void init_color(t_struct *s, int z, int z2);
 void put_pixel_to_image(int x, int y, t_struct *s);
 void print_trace(t_point p1, t_point p2, t_struct *s);
 int ft_abs(int nb);

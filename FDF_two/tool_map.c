@@ -6,33 +6,44 @@
 /*   By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/02 14:22:53 by mroturea          #+#    #+#             */
-/*   Updated: 2016/05/18 17:55:18 by mroturea         ###   ########.fr       */
+/*   Updated: 2016/05/18 19:20:17 by mroturea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void init_color(t_struct *s, int z)
+void init_color(t_struct *s, int z, int z2)
 {
-	if (z >= 0 && z <= 10)
+	/*bleu*/
+	if ((z >= 0 && z <= 2) && (z2 >= 0 && z2 <= 2))
 	{
 		s->blue = 51;
 		s->green = 153;
 		s->red = 255;
 	}
-	if (z >= 10 && z <= 40)
+	/*jaune*/
+	if (z >= 3 && z <= 15)
+	{
+		s->blue = 255;
+		s->green = 204;
+		s->red = 0;
+	}
+	/*vert*/
+	if (z >= 16 && z <= 50)
 	{
 		s->blue = 51;
 		s->green = 255;
 		s->red = 51;
 	}
-	if (z >= 41 && z <= 60)
+	/*marron*/
+	if (z >= 51 && z <= 75)
 	{
 		s->blue = 153;
 		s->green = 102;
 		s->red = 0;
 	}
-	if (z >= 60 && z <= 75)
+	/*blanc*/
+	if (z >= 76 && z <= 90)
 	{
 		s->blue = 255;
 		s->green = 255;
