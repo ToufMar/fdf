@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nrandria <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/27 11:23:48 by nrandria          #+#    #+#              #
-#    Updated: 2016/05/18 16:13:55 by mroturea         ###   ########.fr        #
+#    Updated: 2016/05/21 17:02:05 by mroturea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 
 NAME = libft/libft.a
 
-SRC = fdf.c tool_map.c tab_maker.c\
+SRC = fdf.c tool_map.c tab_maker.c draw.c menu_key_color.c\
 
 EXE = fdf
 

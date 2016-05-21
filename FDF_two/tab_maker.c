@@ -6,7 +6,7 @@
 /*   By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/02 14:28:42 by mroturea          #+#    #+#             */
-/*   Updated: 2016/05/18 19:20:18 by mroturea         ###   ########.fr       */
+/*   Updated: 2016/05/21 17:36:36 by mroturea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ int	count_line(char *av)
 		return (-1);
 }
 
-int	count_col(char **tab, t_tab *t)
+int	count_col(char **tab, t_struct *s)
 {
 	int i;
 	i = 0;
 	while (tab[i])
 		i++;
-	t->nb_col = i;
+	s->nb_col = i;
 	return (i);
 }
 
-int		*get_int_tab(char *str, t_tab *t)
+int		*get_int_tab(char *str, t_struct *s)
 {
 	int i;
 	char **tmp;
@@ -48,10 +48,14 @@ int		*get_int_tab(char *str, t_tab *t)
 
 	i = 0;
 	tmp = ft_strsplit(str, ' ');
-	tab = (int *)malloc(sizeof(int) * count_col(tmp, t));
+	tab = (int *)malloc(sizeof(int) * count_col(tmp, s));
 	while (tmp[i])
 	{
 		tab[i] = ft_atoi(tmp[i]);
+		if (tab[i] > s->zmax)
+			s->zmax = tab[i];
+		if (tab[i] < s->zmin)
+			s->zmin = tab[i];
 		i++;
 	}
 	return(tab);

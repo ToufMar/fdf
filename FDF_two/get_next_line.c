@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rberthie <rberthie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mroturea <mroturea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/04/10 16:25:34 by rberthie          #+#    #+#             */
-/*   Updated: 2016/04/15 17:46:08 by rberthie         ###   ########.fr       */
+/*   Updated: 2016/05/19 17:14:19 by mroturea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,32 +32,7 @@ static	t_list		*find_create_node(t_list **begin, int fd)
 	ft_lstadd(begin, tmp);
 	return (tmp);
 }
-/*
-static	void		del_list(t_list *liste)
-{
-    t_list tmp = (*liste);
-    t_list next;
 
-    if (liste == NULL) 
-    	return;
-    while(tmp != NULL)
-    {
-        if (tmp->content != NULL)
-        {
-            free(tmp->content);
-//          tmp->val = NULL;
-        }
-        if (tmp->content_size != NULL)
-        {
-        	free(tmp->content_size);
-        }
-        next = tmp->nxt;
-        free(tmp);
-        tmp = next;
-    }
-    (*liste) = NULL;
-}
-*/
 static	char		*ft_strnjoin_nfree(char *str, char *buff, size_t *i)
 {
 	char			*tmp;
